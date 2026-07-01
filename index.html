@@ -117,16 +117,17 @@
     <aside class="newsRail">
       <div class="newsHead">Latest News</div>
       <div id="newsList">
-      <a class="nItem" href="https://hrexecutive.com/as-eightfold-workday-suits-show-ai-legal-risks-are-building-for-hr/" target="_blank" rel="noopener"><span class="h">As Eightfold and Workday suits show, AI legal risks are building for HR</span><span class="s">HR Executive · Jun 2026</span></a>
-      <a class="nItem" href="https://www.eda.gov/news/press-release/2026/05/11/us-department-commerce-announces-25-million-notice-funding" target="_blank" rel="noopener"><span class="h">Commerce announces $25M to upskill U.S. workers in AI</span><span class="s">U.S. EDA · May 2026</span></a>
-      <a class="nItem" href="https://www.hr-brew.com/stories/2026/01/29/ai-powered-hiring-platform-eightfold-ai-faces-lawsuit-over-hiring-data-used-to-rate-candidates" target="_blank" rel="noopener"><span class="h">Eightfold AI faces suit over hiring data used to rate candidates</span><span class="s">HR Brew · Jan 2026</span></a>
-      <a class="nItem" href="https://www.shrm.org/topics-tools/research/state-of-ai-hr-2026/full-report" target="_blank" rel="noopener"><span class="h">The State of AI in HR 2026 report</span><span class="s">SHRM · 2026</span></a>
+      <a class="nItem" href="https://www.gartner.com/en/newsroom/press-releases/2026-06-29-gartner-says-chros-must-identify-hidden-workforce-costs-to-protect-ai-roi" target="_blank" rel="noopener"><span class="h">Gartner: CHROs must find hidden workforce costs to protect AI ROI</span><span class="s">Gartner · Jun 29, 2026</span></a>
+      <a class="nItem" href="https://techcrunch.com/2026/06/22/the-running-list-major-tech-layoffs-in-2026-where-employers-cited-ai/" target="_blank" rel="noopener"><span class="h">The running list: 2026 tech layoffs where employers cited AI</span><span class="s">TechCrunch · Jun 22, 2026</span></a>
+      <a class="nItem" href="https://joshbersin.com/hr2030/" target="_blank" rel="noopener"><span class="h">HR 2030: The Agentic HR Blueprint</span><span class="s">Josh Bersin · Jun 8, 2026</span></a>
+      <a class="nItem" href="https://hrexecutive.com/what-4-recent-hr-tech-deals-say-about-the-future-of-skills/" target="_blank" rel="noopener"><span class="h">What 4 recent HR tech deals say about the future of skills</span><span class="s">HR Executive · Jun 2026</span></a>
+      <a class="nItem" href="https://hrexecutive.com/ai-hiring-tools-face-legal-reckoning-as-vc-money-pours-in/" target="_blank" rel="noopener"><span class="h">Lawsuits put $6B in AI-powered HR hiring tech at risk</span><span class="s">HR Executive · Jun 2026</span></a>
+      <a class="nItem" href="https://www.hrdive.com/news/2026-more-hr-leaders-are-focused-on-training/821117/" target="_blank" rel="noopener"><span class="h">In 2026, more HR leaders are focused on training</span><span class="s">HR Dive · 2026</span></a>
+      <a class="nItem" href="https://www.shrm.org/executive-network/insights/state-of-ai-hr-2026-5-critical-insights-chros" target="_blank" rel="noopener"><span class="h">The State of AI in HR 2026: 5 critical insights for CHROs</span><span class="s">SHRM · 2026</span></a>
       <a class="nItem" href="https://gloat.com/blog/ai-workforce-trends/" target="_blank" rel="noopener"><span class="h">AI workforce trends 2026 (Q2 update)</span><span class="s">Gloat · Q2 2026</span></a>
-      <a class="nItem" href="https://www.deloitte.com/us/en/insights/topics/talent/human-capital-trends.html" target="_blank" rel="noopener"><span class="h">2026 Global Human Capital Trends</span><span class="s">Deloitte Insights · 2026</span></a>
-      <a class="nItem" href="https://eightfold.ai/blog/predictions-hr-tech-2026/" target="_blank" rel="noopener"><span class="h">10 predictions for HR and HR tech in 2026</span><span class="s">Eightfold · 2026</span></a>
       </div>
       <a class="nMore" href="https://news.google.com/search?q=%28%22HR%20technology%22%20OR%20%22talent%20intelligence%22%20OR%20%22agentic%20HR%22%29%20AI&hl=en-US&gl=US&ceid=US:en" target="_blank" rel="noopener">More HR-AI news →</a>
-      <div class="nFoot" id="nFoot">Curated · live feed loads on open</div>
+      <div class="nFoot" id="nFoot">Curated &amp; verified · Jul 1, 2026</div>
     </aside>
   </div>
 
@@ -441,7 +442,9 @@ function loadNews(){
     const f=document.getElementById('nFoot');if(f)f.textContent='Live · '+FEEDS.length+' HR sources, refreshes on open';
   }).catch(()=>{});
 }
-loadNews();
+/* loadNews() disabled 7/1/2026: free CORS proxies can't reach Cloudflare-protected HR feeds,
+   and a partial pull was overwriting good items with an HRExaminer-only dump.
+   The rail is now a curated, date-verified list, refreshed by the morning routine. */
 </script>
 </body>
 </html>
