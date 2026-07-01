@@ -125,7 +125,7 @@
       <a class="nItem" href="https://www.deloitte.com/us/en/insights/topics/talent/human-capital-trends.html" target="_blank" rel="noopener"><span class="h">2026 Global Human Capital Trends</span><span class="s">Deloitte Insights · 2026</span></a>
       <a class="nItem" href="https://eightfold.ai/blog/predictions-hr-tech-2026/" target="_blank" rel="noopener"><span class="h">10 predictions for HR and HR tech in 2026</span><span class="s">Eightfold · 2026</span></a>
       </div>
-      <a class="nMore" href="https://news.google.com/search?q=HCM%20AI%20OR%20%22HR%20tech%22%20AI&hl=en-US" target="_blank" rel="noopener">More HCM-AI news →</a>
+      <a class="nMore" href="https://news.google.com/search?q=%28%22HR%20technology%22%20OR%20%22talent%20intelligence%22%20OR%20%22agentic%20HR%22%29%20AI&hl=en-US&gl=US&ceid=US:en" target="_blank" rel="noopener">More HR-AI news →</a>
       <div class="nFoot" id="nFoot">Curated · live feed loads on open</div>
     </aside>
   </div>
@@ -147,7 +147,8 @@ const CATS = {
   ti:   {label:"Talent Intelligence",color:"#7c9cff"},
   rec:  {label:"AI Recruiting",      color:"#f0a64e"},
   ex:   {label:"Employee Experience",color:"#c07cff"},
-  inc:  {label:"HCM Incumbent (AI)", color:"#ff7a90"}
+  inc:  {label:"HCM Incumbent (AI)", color:"#ff7a90"},
+  plat: {label:"AI-Native Platform",  color:"#4ade80"}
 };
 const D = [
   {n:"Section",cat:"up",hq:"USA",scale:"Greg Shove · growth-stage",site:"sectionai.com",
@@ -291,7 +292,11 @@ const D = [
    long:"ERP giant (including SuccessFactors HCM); broader than HCM but making a massive AI push with the 'Joule' copilot."},
   {n:"Oracle",cat:"inc",hq:"Austin, TX",scale:"public · ERP + HCM",site:"oracle.com",
    d:"ERP giant (incl. Oracle/Fusion HCM) with embedded generative AI across applications.",
-   long:"Another ADP→ERP migration destination; enterprise software + HCM fit."}
+   long:"Another ADP→ERP migration destination; enterprise software + HCM fit."},
+
+  {n:"Warp",cat:"plat",hq:"New York, NY",scale:"$85M total ($60M Series B, 2026)",site:"warp.co",
+   d:"AI-native payroll, compliance & benefits — agents own entire workflows (state tax accounts, filings, notices) end to end.",
+   long:"Founded 2023 (Ayush Sharma); YC-backed. $60M Series B led by Battery Ventures (Jun 2026), ~$85M total; angel backers incl. Tobi Lütke (Shopify), Claire Hughes Johnson (Stripe), Drew Houston &amp; Arash Ferdowsi (Dropbox). A full-stack DISPLACEMENT play — a 'new Gusto/Paylocity' rebuilt AI-native: payroll, multi-state tax registration &amp; filings, benefits enrollment, global contractor pay, and compliance-notice resolution with no human in the loop. Customer base skews fast-growing AI companies (Bland AI, Reducto, Greptile); scales ~10 to 5,000 employees. Independent."}
 ];
 
 let cat="All";
@@ -302,7 +307,8 @@ const LI={
   "Phenom":"phenomai","Fuel50":"fuel50","Mercor":"mercor-ai",
   "SeekOut":"seek0ut","Moonhub":"moon-hub","Ashby":"ashbyhq",
   "Leena AI":"leena-ai","inFeedo":"infeedo",
-  "Workday":"workday","ADP":"adp","UKG":"ukg","Dayforce":"dayforce","Paychex":"paychex","SAP":"sap","Oracle":"oracle"
+  "Workday":"workday","ADP":"adp","UKG":"ukg","Dayforce":"dayforce","Paychex":"paychex","SAP":"sap","Oracle":"oracle",
+  "Warp":"warpdotco"
 };
 // LinkedIn button -> the company's JOBS, not its home page (the Website button already covers the home page).
 // Prefer the company Jobs tab via slug; else filter the LinkedIn jobs search to that company's numeric ID (same ID as Sales Nav);
@@ -398,24 +404,44 @@ chips();render();
 function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function ago(d){const s=(Date.now()-d)/1000;if(isNaN(s))return'';if(s<3600)return Math.max(1,Math.round(s/60))+'m ago';if(s<86400)return Math.round(s/3600)+'h ago';return Math.round(s/86400)+'d ago'}
 function loadNews(){
-  const q='("HR tech" OR HCM OR "talent intelligence" OR "AI upskilling" OR Eightfold OR Workday OR Gloat OR Visier OR Mercor OR "Section AI" OR Phenom) AND AI';
-  const rss='https://news.google.com/rss/search?q='+encodeURIComponent(q)+'&hl=en-US&gl=US&ceid=US:en';
-  const url='https://api.allorigins.win/get?url='+encodeURIComponent(rss);
-  fetch(url).then(r=>r.json()).then(d=>{
+  const FEEDS=[
+    {n:"HR Dive",u:"https://www.hrdive.com/feeds/news/"},
+    {n:"HR Executive",u:"https://hrexecutive.com/feed/"},
+    {n:"Josh Bersin",u:"https://joshbersin.com/feed/"},
+    {n:"HRExaminer",u:"https://www.hrexaminer.com/feed/"},
+    {n:"UNLEASH",u:"https://www.unleash.ai/feed/"},
+    {n:"HR Tech Feed",u:"https://hrtechfeed.com/feed/"},
+    {n:"SHRM",u:"https://www.shrm.org/rss/all-news.xml"},
+    {n:"HRMorning",u:"https://www.hrmorning.com/feed/"},
+    {n:"TLNT",u:"https://www.tlnt.com/feed/"},
+    {n:"HRO Today",u:"https://www.hrotoday.com/feed/"},
+    {n:"Personnel Today",u:"https://www.personneltoday.com/feed/"}
+  ];
+  const prox=u=>'https://api.allorigins.win/get?url='+encodeURIComponent(u);
+  Promise.allSettled(FEEDS.map(f=>fetch(prox(f.u)).then(r=>r.json()).then(d=>{
     const xml=new DOMParser().parseFromString(d.contents,'text/xml');
-    const items=[...xml.querySelectorAll('item')].slice(0,12);
-    if(!items.length)return;
-    document.getElementById('newsList').innerHTML=items.map(it=>{
-      let t=(it.querySelector('title')||{}).textContent||'';
-      const link=(it.querySelector('link')||{}).textContent||'#';
-      let s=(it.querySelector('source')||{}).textContent||'';
-      const pd=(it.querySelector('pubDate')||{}).textContent;
-      const m=t.match(/^(.*) - ([^-]+)$/);if(m){t=m[1];if(!s)s=m[2];}
-      const a=pd?' · '+ago(new Date(pd)):'';
-      return '<a class="nItem" href="'+link+'" target="_blank" rel="noopener"><span class="h">'+esc(t)+'</span><span class="s">'+esc(s)+a+'</span></a>';
+    return [...xml.querySelectorAll('item')].slice(0,6).map(it=>({
+      t:(it.querySelector('title')||{}).textContent||'',
+      link:(it.querySelector('link')||{}).textContent||'#',
+      src:f.n,
+      pd:(it.querySelector('pubDate')||{}).textContent||''
+    }));
+  }))).then(res=>{
+    let all=[];
+    res.forEach(r=>{if(r.status==='fulfilled'&&r.value)all=all.concat(r.value);});
+    const seen={};
+    all=all.filter(a=>{const k=(a.t||'').toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,50);if(!k||seen[k])return false;seen[k]=1;return true;});
+    all.sort((a,b)=>new Date(b.pd)-new Date(a.pd));
+    all=all.slice(0,15);
+    if(!all.length)return;
+    document.getElementById('newsList').innerHTML=all.map(a=>{
+      const ag=a.pd?' · '+ago(new Date(a.pd)):'';
+      return '<a class="nItem" href="'+a.link+'" target="_blank" rel="noopener"><span class="h">'+esc(a.t)+'</span><span class="s">'+esc(a.src)+ag+'</span></a>';
     }).join('');
-    const f=document.getElementById('nFoot');if(f)f.textContent='Live · Google News, refreshes on open';
+    const f=document.getElementById('nFoot');if(f)f.textContent='Live · '+FEEDS.length+' HR sources, refreshes on open';
   }).catch(()=>{});
 }
 loadNews();
 </script>
+</body>
+</html>
